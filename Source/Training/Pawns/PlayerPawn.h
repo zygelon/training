@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Components/BoxComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 #include "PlayerPawn.generated.h"
 
 
@@ -21,6 +23,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void OnTouchRelease(ETouchIndex::Type,FVector);
+	void OnTouchPressed(ETouchIndex::Type, FVector);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -28,9 +33,15 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Pawn")
 	UBoxComponent* PawnCollision;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Pawn")
 	UStaticMeshComponent* PawnMesh;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pawn")
+	USpringArmComponent* CamSpringArm;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pawn")
+	UCameraComponent* PawnCamera;
 };

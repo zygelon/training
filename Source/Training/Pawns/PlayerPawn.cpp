@@ -14,6 +14,12 @@ APlayerPawn::APlayerPawn()
 
 	PawnMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PawnMesh"));
 	PawnMesh->SetupAttachment(RootComponent);
+
+	CamSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CamSpringArm"));
+	CamSpringArm->SetupAttachment(RootComponent);
+
+	PawnCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PawnCamera"));
+	PawnCamera->SetupAttachment(CamSpringArm);
 }
 
 // Called when the game starts or when spawned
@@ -23,6 +29,7 @@ void APlayerPawn::BeginPlay()
 	
 }
 
+
 // Called every frame
 void APlayerPawn::Tick(float DeltaTime)
 {
@@ -30,10 +37,20 @@ void APlayerPawn::Tick(float DeltaTime)
 
 }
 
-// Called to bind functionality to input
-void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void APlayerPawn::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	InputComponent->BindTouch(IE_Pressed, this, &APlayerPawn::OnTouchPressed);
+	InputComponent->BindTouch(IE_Released, this, &APlayerPawn::OnTouchRelease);
 }
 
+void APlayerPawn::OnTouchPressed(ETouchIndex::Type Index, FVector TouchLocation)
+{
+	UE_LOG(LogTemp, Log, TEXT("Pressed"));
+}
+
+void APlayerPawn::OnTouchRelease(ETouchIndex::Type Index, FVector TouchLocation)
+{
+	UE_LOG(LogTemp, Log, TEXT("Release"));
+}
