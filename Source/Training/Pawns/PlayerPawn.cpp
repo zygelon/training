@@ -2,6 +2,7 @@
 
 #include "PlayerPawn.h"
 #include "Components/StaticMeshComponent.h"
+#include "GameFramework/Pawn.h"
 
 // Sets default values
 APlayerPawn::APlayerPawn()
@@ -20,6 +21,8 @@ APlayerPawn::APlayerPawn()
 
 	PawnCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PawnCamera"));
 	PawnCamera->SetupAttachment(CamSpringArm);
+
+
 }
 
 // Called when the game starts or when spawned
@@ -35,6 +38,18 @@ void APlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+
+	APlayerController* PlayerController= Cast<APlayerController>(GetController());
+
+	bool Touch = false;
+	float TouchX; float TouchY;
+	if (PlayerController !=NULL)
+	{
+		PlayerController->GetInputTouchState(ETouchIndex::Touch1, TouchX, TouchY, Touch);
+		if (Touch)
+			UE_LOG(LogTemp, Log, TEXT("Touching in %f-%f"), TouchX, TouchY);
+	}
+
 }
 
 void APlayerPawn::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -45,12 +60,15 @@ void APlayerPawn::SetupPlayerInputComponent(class UInputComponent* PlayerInputCo
 	InputComponent->BindTouch(IE_Released, this, &APlayerPawn::OnTouchRelease);
 }
 
-void APlayerPawn::OnTouchPressed(ETouchIndex::Type Index, FVector TouchLocation)
+void APlayerPawn::OnTouchPressed(ETouchIndex::Type Index, FVector Location)
 {
-	UE_LOG(LogTemp, Log, TEXT("Pressed"));
+	UE_LOG(LogTemp, Log, TEXT("Touch Pressed: %s"),*TouchLocation.ToString());
+	TouchLocation = FVector2D(Location);
+	Touching = true;
 }
 
-void APlayerPawn::OnTouchRelease(ETouchIndex::Type Index, FVector TouchLocation)
+void APlayerPawn::OnTouchRelease(ETouchIndex::Type Index, FVector Location)
 {
-	UE_LOG(LogTemp, Log, TEXT("Release"));
+	UE_LOG(LogTemp, Log, TEXT("Touch Release: %s"),*TouchLocation.ToString());
+	Touching = false;
 }
