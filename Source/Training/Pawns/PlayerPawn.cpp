@@ -16,11 +16,11 @@ APlayerPawn::APlayerPawn()
 	PawnMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PawnMesh"));
 	PawnMesh->SetupAttachment(RootComponent);
 
-	CamSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CamSpringArm"));
-	CamSpringArm->SetupAttachment(RootComponent);
+	//CamSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CamSpringArm"));
+	//CamSpringArm->SetupAttachment(RootComponent);
 
 	PawnCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PawnCamera"));
-	PawnCamera->SetupAttachment(CamSpringArm);
+	//wnCamera->SetupAttachment(CamSpringArm);
 
 
 }
@@ -39,7 +39,7 @@ void APlayerPawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 
-	APlayerController* PlayerController= Cast<APlayerController>(GetController());
+	//APlayerController* PlayerController= Cast<APlayerController>(GetController());
 
 	bool Touch = false;
 	float TouchX; float TouchY;
@@ -47,7 +47,17 @@ void APlayerPawn::Tick(float DeltaTime)
 	{
 		PlayerController->GetInputTouchState(ETouchIndex::Touch1, TouchX, TouchY, Touch);
 		if (Touch)
-			UE_LOG(LogTemp, Log, TEXT("Touching in %f-%f"), TouchX, TouchY);
+		{
+			FVector2D TouchDeltaMove = FVector2D(TouchLocation.X - TouchX, TouchLocation.Y - TouchY)*TouchSensitive;
+			UE_LOG(LogTemp, Log, TEXT("Touching in %f-%f"), TouchLocation.X-TouchX, TouchLocation.Y-TouchY);
+
+			FVector NewLocation = GetActorLocation();
+			//NewLocation.X = FMath::Clamp(NewLocation.X + TouchDeltaMove.X,0,);
+
+			AddActorLocalOffset(FVector(TouchDeltaMove.Y, -TouchDeltaMove.X, 0.f));
+
+			TouchLocation = FVector2D(TouchX, TouchY);
+		}
 	}
 
 }
@@ -65,6 +75,12 @@ void APlayerPawn::OnTouchPressed(ETouchIndex::Type Index, FVector Location)
 	UE_LOG(LogTemp, Log, TEXT("Touch Pressed: %s"),*TouchLocation.ToString());
 	TouchLocation = FVector2D(Location);
 	Touching = true;
+}
+
+void APlayerPawn::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	PlayerController = Cast<APlayerController>(NewController);
 }
 
 void APlayerPawn::OnTouchRelease(ETouchIndex::Type Index, FVector Location)

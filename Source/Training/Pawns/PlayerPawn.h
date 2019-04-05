@@ -25,6 +25,9 @@ protected:
 
 	void OnTouchRelease(ETouchIndex::Type,FVector);
 	void OnTouchPressed(ETouchIndex::Type, FVector);
+	virtual void PossessedBy(AController* NewController) override;
+	UPROPERTY()
+	APlayerController* PlayerController;
 
 private:
 	FVector2D TouchLocation;
@@ -38,14 +41,17 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Control")
+	float TouchSensitive=5.0f;
+
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Pawn")
 	UBoxComponent* PawnCollision;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Pawn")
 	UStaticMeshComponent* PawnMesh;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pawn")
-	USpringArmComponent* CamSpringArm;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pawn")
+	//USpringArmComponent* CamSpringArm;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pawn")
 	UCameraComponent* PawnCamera;
