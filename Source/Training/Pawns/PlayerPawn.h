@@ -26,6 +26,11 @@ protected:
 	void OnTouchRelease(ETouchIndex::Type,FVector);
 	void OnTouchPressed(ETouchIndex::Type, FVector);
 
+private:
+	FVector2D TouchLocation;
+	bool Touching;
+	//UPROPERTY(
+	//APlayerController* Controller;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
