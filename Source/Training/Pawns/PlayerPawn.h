@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/ShootComponent.h"
 #include "PlayerPawn.generated.h"
 
 
@@ -24,14 +25,20 @@ protected:
 	virtual void BeginPlay() override;
 
 	void OnTouchRelease(ETouchIndex::Type,FVector);
+
 	void OnTouchPressed(ETouchIndex::Type, FVector);
+
+	void OnTouchMove(ETouchIndex::Type, FVector);
+
 	virtual void PossessedBy(AController* NewController) override;
+
 	UPROPERTY()
 	APlayerController* PlayerController;
 
 private:
 	FVector2D TouchLocation;
 	bool Touching;
+	
 	//UPROPERTY(
 	//APlayerController* Controller;
 public:	
@@ -41,8 +48,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Control")
-	float TouchSensitive=5.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Controls")
+	float TouchSensitive=2.5f;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Pawn")
 	UBoxComponent* PawnCollision;
@@ -50,9 +57,9 @@ public:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Pawn")
 	UStaticMeshComponent* PawnMesh;
 
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pawn")
-	//USpringArmComponent* CamSpringArm;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shooting")
+	UShootComponent* ShootComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pawn")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Pawn")
 	UCameraComponent* PawnCamera;
 };
