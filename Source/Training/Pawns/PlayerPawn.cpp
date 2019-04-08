@@ -28,7 +28,7 @@ APlayerPawn::APlayerPawn()
 void APlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	ShootComponent->StartShooting();
 }
 
 
@@ -88,7 +88,7 @@ void APlayerPawn::OnTouchMove(ETouchIndex::Type Index, FVector Location)
 	//NewLocation.Y = FMath::Clamp(NewLocation.Y - TouchDeltaMove.X, -500.f, 500.f);
 	FVector2D TouchDeltaMove = FVector2D(TouchLocation.X - Location.X, TouchLocation.Y - Location.Y);
 	TouchDeltaMove *= TouchSensitive;
-	UE_LOG(LogTemp, Log, TEXT("%f, %f"), TouchLocation.X, Location.X);
+	//UE_LOG(LogTemp, Log, TEXT("%f, %f"), TouchLocation.X, Location.X);
 	//UE_LOG(LogTemp, Log, TEXT("%f, %f"), TouchDeltaMove.X, TouchDeltaMove.Y);
 	FVector NewLocation = GetActorLocation();
 	NewLocation.X = FMath::Clamp(NewLocation.X+TouchDeltaMove.Y, -540.f, 1300.f);

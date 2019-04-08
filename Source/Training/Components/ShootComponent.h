@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Actors/Projectiles/ShootProjectile.h"
 #include "ShootComponent.generated.h"
 
 
@@ -31,8 +32,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Shooting")
 	void StopShooting();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shooting")
 	float ShootPeriod;
 
-		
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
+	TSubclassOf<AShootProjectile>ProjectileClass;
 };

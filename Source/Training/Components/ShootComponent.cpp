@@ -5,11 +5,10 @@
 #include "Engine/World.h"
 
 // Sets default values for this component's properties
-UShootComponent::UShootComponent() : ShootPeriod(1.9f)
+UShootComponent::UShootComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	
 
 	// ...
 }
@@ -27,11 +26,18 @@ void UShootComponent::BeginPlay()
 void UShootComponent::Shoot()
 {
 	UE_LOG(LogTemp, Log, TEXT("Shoot"));
+
+	FVector SpawnLocation = GetOwner()->GetActorLocation();
+
+	FRotator SpawnRotation = GetOwner()->GetActorRotation();
+	//SpawnRotation.Add(0.f, 40.f, 0.f);
+
+	GetWorld()->SpawnActor<AShootProjectile>(ProjectileClass,SpawnLocation, SpawnRotation);
 }
 
 void UShootComponent::StartShooting()
 {
-	GetWorld()->GetTimerManager().SetTimer(ShootingTimer, this, &UShootComponent::Shoot, true, ShootPeriod);
+	GetWorld()->GetTimerManager().SetTimer(ShootingTimer, this, &UShootComponent::Shoot, ShootPeriod, true);
 }
 
 void UShootComponent::StopShooting()
