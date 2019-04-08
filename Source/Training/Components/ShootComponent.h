@@ -8,11 +8,29 @@
 #include "ShootComponent.generated.h"
 
 
+USTRUCT(BlueprintType)
+struct FShootInfo
+{
+	GENERATED_BODY()
+		
+	FShootInfo():Angle(0.f),Offset(40.f){}
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
+	TSubclassOf<AShootProjectile>ProjectileClass;
+	
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Shooting")
+	FVector Offset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shooting")
+	float Angle;
+};
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TRAINING_API UShootComponent : public UActorComponent
 {
 	GENERATED_BODY()
-
+		
 public:	
 	// Sets default values for this component's properties
 	UShootComponent();
@@ -32,9 +50,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Shooting")
 	void StopShooting();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shooting")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
 	float ShootPeriod;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
-	TSubclassOf<AShootProjectile>ProjectileClass;
+	TArray<FShootInfo> ShootInfos;
 };

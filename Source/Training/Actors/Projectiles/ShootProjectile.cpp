@@ -29,7 +29,7 @@ void AShootProjectile::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	AddActorLocalOffset(ProjectileSpeed*DeltaTime*FVector(1, 0,0));
-	if (GetActorLocation().Size() > 3000.f)
-		Destroy();
+	//if (GetActorLocation().Size() > 3000.f)
+	//	Destroy();
 }
 
