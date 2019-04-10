@@ -2,3 +2,7 @@
 
 #include "TrainingGameModeBase.h"
 
+ATrainingGameModeBase::ATrainingGameModeBase()
+{
+	EnemySpawnController = CreateDefaultSubobject<UEnemySpawnController>(TEXT("EnemySpawnController"));
+}

@@ -13,7 +13,7 @@ struct FShootInfo
 {
 	GENERATED_BODY()
 		
-	FShootInfo():Angle(0.f),Offset(40.f){}
+	FShootInfo():Angle(0.f),Offset(0.f,40.f,0.f){}
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
 	TSubclassOf<AShootProjectile>ProjectileClass;
