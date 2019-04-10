@@ -16,12 +16,15 @@ UEnemySpawnController::UEnemySpawnController() : CurrentStage(0), EnemiesSpawned
 void UEnemySpawnController::StartSpawnStage()
 {
 	GetWorld()->GetTimerManager().SetTimer(SpawnEnemyTimer, this,
-		&UEnemySpawnController::SpawnEnemy, SpawnStages[CurrentStage].AfterEnemyDelay, true);
+		&UEnemySpawnController::EnemySpawn, SpawnStages[CurrentStage].AfterEnemyDelay, true);
 }
 
-void UEnemySpawnController::SpawnEnemy()
+void UEnemySpawnController::EnemySpawn()
 {
-	UE_LOG(LogTemp, Log, TEXT("SpawnEnemy!!"));
+	//UClass* InClass, FVector const* Location = NULL, FRotator const* Rotation = NULL
+	GetWorld()->SpawnActor<AEnemyPawn>(SpawnStages[CurrentStage][EnemiesSpawned].EnemyClass, 
+		SpawnStages[CurrentStage][EnemiesSpawned].SpawnTransform );
+
 	EnemiesSpawned++;
 	
 	if (EnemiesSpawned >= SpawnStages[CurrentStage].SpawnEnemies.Num())
