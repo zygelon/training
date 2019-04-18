@@ -47,6 +47,7 @@ class TRAINING_API UEnemySpawnController : public UActorComponent
 
 public:	
 	// Sets default values for this component's properties
+	
 	UEnemySpawnController();
 
 	void StartSpawnStage();

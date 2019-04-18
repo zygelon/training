@@ -28,6 +28,9 @@ void UShootComponent::Shoot()
 	//UE_LOG(LogTemp, Log, TEXT("Shoot"));
 	for (FShootInfo Info : ShootInfos)
 	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.Owner = GetOwner();
+
 		FRotator SpawnRotation = GetOwner()->GetActorRotation();
 
 		FVector SpawnLocation = GetOwner()->GetActorLocation() +
@@ -35,7 +38,7 @@ void UShootComponent::Shoot()
 
 		SpawnRotation.Add(0.f, Info.Angle, 0.f);
 
-		GetWorld()->SpawnActor<AShootProjectile>(Info.ProjectileClass, SpawnLocation, SpawnRotation);
+		GetWorld()->SpawnActor<AShootProjectile>(Info.ProjectileClass, SpawnLocation, SpawnRotation,SpawnParameters);
 	}
 }
 

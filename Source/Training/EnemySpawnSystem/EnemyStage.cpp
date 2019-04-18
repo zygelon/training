@@ -4,9 +4,11 @@
 
 UEnemyStage::UEnemyStage() : StageDelay(1.f) , EnemiesSpawned(0)
 {
-	AddEnemy(FVector(300, -100, 0), 0.5f);
-	AddEnemy(FVector(300, 100, 0), 1.f);
-	AddEnemy(FVector(300, 0, 0), 0.5f);
+	RandomSpawn.GenerateNewSeed();
+
+	AddEnemy(FVector(600, 0.f+RandomSpawn.FRandRange(-300,300), 0), 0.5f);
+	AddEnemy(FVector(600, 100+RandomSpawn.FRandRange(-300, 300), 0), 1.f);
+	AddEnemy(FVector(600, 0.f + RandomSpawn.FRandRange(-300, 300), 0), 0.5f);
 }
 
 

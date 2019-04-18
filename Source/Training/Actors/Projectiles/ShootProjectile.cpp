@@ -14,13 +14,26 @@ AShootProjectile::AShootProjectile()
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Collision);
 	Mesh->SetCollisionProfileName("NoCollision");
+
+	
 }
 
 // Called when the game starts or when spawned
 void AShootProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Collision->OnComponentBeginOverlap.AddDynamic(this,&AShootProjectile::OnProjectileOVerlap);
 	
+	if (GetOwner())
+	{
+		UE_LOG(LogTemp, Log, TEXT("OWNER!"));
+	}
+}
+
+void AShootProjectile::OnProjectileOVerlap(UPrimitiveComponent* overlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 BodyIndex, bool FromSweep, const FHitResult& HitResult)
+{
+	UE_LOG(LogTemp, Log, TEXT("Proj Overlapped!"));
 }
 
 // Called every frame

@@ -12,9 +12,10 @@
 USTRUCT(BlueprintType)
 struct FEnemyInfo {
 	GENERATED_BODY()
-		FEnemyInfo();
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemies")
-		TSubclassOf<AEnemyPawn>EnemyClass;
+	FEnemyInfo();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemies")
+	TSubclassOf<AEnemyPawn>EnemyClass;
 	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemies")
@@ -40,6 +41,7 @@ protected:
 	
 
 	FTimerHandle EnemySpawnTimer;
+	FRandomStream RandomSpawn;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "EnemyStage")
 	int32 EnemiesSpawned;
