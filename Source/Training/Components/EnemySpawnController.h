@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Pawns/EnemyPawn.h"
+#include "EnemySpawnSystem/EnemyStage.h"
 #include "EnemySpawnController.generated.h"
-
+/*
 USTRUCT(BlueprintType)
-struct FEnemySpawnInfo{
+struct FEnemyInfo{
 	GENERATED_BODY()
-
+		
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemies")
 	TSubclassOf<AEnemyPawn>EnemyClass=AEnemyPawn::StaticClass();
 
@@ -26,7 +26,7 @@ struct FEnemyStage
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemies")
-	TArray<FEnemySpawnInfo>SpawnEnemies;
+	TArray<FEnemyInfo>SpawnEnemies;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemies")
 	float StageDelay;
@@ -34,10 +34,10 @@ struct FEnemyStage
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemies")
 	float AfterEnemyDelay;
 
-	FORCEINLINE FEnemySpawnInfo& operator[](int32 index);
+	FORCEINLINE FEnemyInfo& operator[](int32 index);
 
 	
-};
+};*/
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -50,23 +50,22 @@ public:
 	UEnemySpawnController();
 
 	void StartSpawnStage();
-	void EnemySpawn();
+	
 	
 protected:
-	// Called when the game starts
+	
 	virtual void BeginPlay() override;
 
 	FTimerHandle ChangeStageTimer;
-	FTimerHandle SpawnEnemyTimer;
+	
 
-	int32 EnemiesSpawned;
 public:	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemies")
 	int32 CurrentStage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Enemies")
-	TArray<FEnemyStage>SpawnStages;
+	TArray<UEnemyStage*>EnemyStages;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enemies")
 	float StagesMinDelay;
