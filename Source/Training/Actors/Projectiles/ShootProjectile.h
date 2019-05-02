@@ -16,7 +16,9 @@ class TRAINING_API AShootProjectile : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AShootProjectile();
-
+	
+	UFUNCTION(BlueprintCallable)
+	void Init(float ProjectileSpeed, float Damage) { this->ProjectileSpeed = ProjectileSpeed; this->Damage = Damage; }
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -29,6 +31,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="ShootProjectile")
 	USphereComponent* Collision;
 
@@ -37,4 +40,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ShootProjectile")
 	float ProjectileSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ShootProjectile")
+	float Damage;
 };

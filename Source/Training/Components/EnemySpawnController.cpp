@@ -49,8 +49,8 @@ void UEnemySpawnController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	EnemyStages.Add(NewObject<UEnemyStage>(this, UEnemyStage::StaticClass()));
 	
-	EnemyStages.Add(NewObject<UEnemyStage>(this,UEnemyStage::StaticClass()));
 	StartSpawnStage();
 	// ...
 	//StartSpawnStage();

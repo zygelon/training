@@ -59,7 +59,7 @@ public:
 	 bool IsFull() { return EnemiesSpawned >= Enemies.Num(); }
 	
 	/*FORCEINLINE*/UFUNCTION(BlueprintCallable, Category = "EnemyStage")
-	void AddEnemy(/*AEnemyPawn* Enemy,*/ FVector position, float delay);
+	void AddEnemy(/*AEnemyPawn* Enemy,*/ FVector position, float delay,float rotation=0.f);
 
 	UFUNCTION(BlueprintCallable, Category = "EnemyStage")
 	void EnemySpawn() { GetWorld()->SpawnActor<AEnemyPawn>(GetCurEnemy().EnemyClass, GetCurEnemy().SpawnTransform); }

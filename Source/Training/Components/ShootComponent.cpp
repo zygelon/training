@@ -5,11 +5,11 @@
 #include "Engine/World.h"
 
 // Sets default values for this component's properties
-UShootComponent::UShootComponent()
+UShootComponent::UShootComponent() 
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-
+	
 	// ...
 }
 
@@ -30,6 +30,8 @@ void UShootComponent::Shoot()
 	{
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.Owner = GetOwner();
+		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		
 
 		FRotator SpawnRotation = GetOwner()->GetActorRotation();
 
@@ -38,7 +40,13 @@ void UShootComponent::Shoot()
 
 		SpawnRotation.Add(0.f, Info.Angle, 0.f);
 
-		GetWorld()->SpawnActor<AShootProjectile>(Info.ProjectileClass, SpawnLocation, SpawnRotation,SpawnParameters);
+		AShootProjectile* Projectile= GetWorld()->SpawnActor<AShootProjectile>(Info.ProjectileClass, SpawnLocation, SpawnRotation,SpawnParameters);
+
+		if(Projectile)
+			Projectile->Init(Info.ProjectileSpeed, Info.Damage);
+		else
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red,"Shoot nullptr ERROR");
+
 	}
 }
 

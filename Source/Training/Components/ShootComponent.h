@@ -13,11 +13,16 @@ struct FShootInfo
 {
 	GENERATED_BODY()
 		
-	FShootInfo():Angle(0.f),Offset(0.f,40.f,0.f){}
+	FShootInfo():Angle(0.f),Offset(0.f,40.f,0.f), ProjectileSpeed(1000.f),Damage(1.f){}
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
 	TSubclassOf<AShootProjectile>ProjectileClass;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
+	float ProjectileSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
+	float Damage;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Shooting")
 	FVector Offset;
@@ -41,6 +46,11 @@ protected:
 
 	void Shoot();
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
+	float ShootPeriod;
+
+	
+
 	FTimerHandle ShootingTimer;
 public:	
 	// Called every frame
@@ -49,9 +59,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Shooting")
 	void StopShooting();
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
-	float ShootPeriod;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
 	TArray<FShootInfo> ShootInfos;

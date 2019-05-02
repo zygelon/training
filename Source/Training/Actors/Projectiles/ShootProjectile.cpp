@@ -1,9 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "ShootProjectile.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
-AShootProjectile::AShootProjectile()
+AShootProjectile::AShootProjectile():ProjectileSpeed()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -13,8 +14,10 @@ AShootProjectile::AShootProjectile()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Collision);
-	Mesh->SetCollisionProfileName("NoCollision");
-
+	//Mesh->SetCollisionProfileName("NoCollision");
+	//Collision->SetCollisionObjectType(ECC)
+	//Collision->SetCollisionResponseToAllChannels(ECR_Ignore); 
+	//Collision->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	
 }
 
@@ -23,17 +26,18 @@ void AShootProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Collision->OnComponentBeginOverlap.AddDynamic(this,&AShootProjectile::OnProjectileOVerlap);
-	
 	if (GetOwner())
-	{
-		UE_LOG(LogTemp, Log, TEXT("OWNER!"));
-	}
+		Collision->IgnoreActorWhenMoving(GetOwner(), true);
+
+	Collision->OnComponentBeginOverlap.AddDynamic(this, &AShootProjectile::OnProjectileOVerlap);
 }
 
 void AShootProjectile::OnProjectileOVerlap(UPrimitiveComponent* overlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 BodyIndex, bool FromSweep, const FHitResult& HitResult)
 {
-	UE_LOG(LogTemp, Log, TEXT("Proj Overlapped!"));
+	
+	UGameplayStatics::ApplyDamage(OtherActor, Damage,nullptr, this, UDamageType::StaticClass());
+
+	Destroy();
 }
 
 // Called every frame
