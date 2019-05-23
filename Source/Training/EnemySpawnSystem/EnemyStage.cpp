@@ -35,8 +35,8 @@ void UEnemyStage::EnemiesSpawning()
 FEnemyInfo::FEnemyInfo()
 {
 	
-	static ConstructorHelpers::FObjectFinder<UBlueprint> ItemBlueprint(TEXT("Blueprint'/Game/Blueprints/Pawns/Enemies/BP_BaseEnemy.BP_BaseEnemy'"));
-	if (ItemBlueprint.Object) {
-		EnemyClass = (UClass*)ItemBlueprint.Object->GeneratedClass;; //= AEnemyPawn::StaticClass();
+	static ConstructorHelpers::FObjectFinder<UClass> ItemClass(TEXT("Class'/Game/Blueprints/Pawns/Enemies/BP_BaseEnemy.BP_BaseEnemy_C'"));
+	if (ItemClass.Object) {
+		EnemyClass = (UClass*)ItemClass.Object; //= AEnemyPawn::StaticClass();
 	}
 }
